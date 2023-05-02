@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/home";
+import BloggerIndex from "./bloggers/index";
+import BloggerShow from "./bloggers/show";
+import ArticleIndex from "./articles/index"
+import ArticleNew from "./articles/new"
+import Navigation from "./layouts/Navigation";
+import Footer from "./layouts/Footer";
+import CategoriesIndex from "./categories/index";
+import CategoriesShow from "./categories/show";
+import ArticleEdit from "./articles/edit";
+import ArticleShow from "./articles/show";
+import SessionsNew from "./devise/sessions/new";
+import RegistrationsNew from "./devise/registrations/new";
+import RegistrationsEdit from "./devise/registrations/edit";
 
-function App() {
-  const [count, setCount] = useState(0)
 
+
+export default function App() {
+  
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <BrowserRouter >
+      <Navigation />
+      <Routes>
+        <Route exact path="/" element={<Home />}/>
+        <Route exact path="/bloggers" element={<BloggerIndex />} />
+        <Route exact path="/bloggers/show" element={<BloggerShow />} />
+        <Route exact path="/articles" element={<ArticleIndex />} />
+        <Route exact path="/articles/new" element={<ArticleNew />} />
+        <Route exact path="/articles/edit" element={<ArticleEdit />} />
+        <Route exact path="/articles/show" element={<ArticleShow />} />
+        <Route exact path="/categories" element={<CategoriesIndex />} />
+        <Route exact path="/categories/show" element={<CategoriesShow />} />
+        <Route exact path="/bloggers/signin" element={<SessionsNew />} />
+        <Route exact path="/bloggers/signup" element={<RegistrationsNew />} />
+        <Route exact path="/bloggers/edit" element={<RegistrationsEdit />} />
+      </Routes>
+    </BrowserRouter>
+    <Footer />
     </>
-  )
+    
+  );
 }
 
-export default App
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
