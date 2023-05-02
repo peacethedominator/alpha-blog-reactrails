@@ -1,7 +1,7 @@
 class Blogger < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
   def jwt_payload
     super.merge('foo' => 'bar')
   end

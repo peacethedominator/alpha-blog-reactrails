@@ -11,3 +11,28 @@ We can access serializer data for single record by:
 UserSerializer.new(resource).serializable_hash[:data][:attributes]
 And multiple records by,
 UserSerializer.new(resource).serializable_hash[:data].map{|data| data[:attributes]}
+ 
+ <!-- test console -->
+fetch("http://localhost:3000/login", {
+  method: "post",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    blogger: {
+      email: "aman@example.com",
+      password: "password",
+    },
+  }),
+})
+  .then((res) => {
+    if (res.ok) {
+      console.log(res.headers.get("Authorization"));
+      localStorage.setItem("token", res.headers.get("Authorization"));
+      return res.json();
+    } else {
+      throw new Error(res);
+    }
+  })
+  .then((json) => console.dir(json))
+  .catch((err) => console.error(err));

@@ -312,14 +312,18 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
   
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.secret_key_base
+    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
     jwt.dispatch_requests = [
       ['POST', %r{^/login$}]
     ]
     jwt.revocation_requests = [
       ['DELETE', %r{^/logout$}]
     ]
-    jwt.expiration_time = 30.minutes.to_i
   end
+  
+  # Configure the default Devise paths
+  
+  config.navigational_formats = []
+  
 
 end

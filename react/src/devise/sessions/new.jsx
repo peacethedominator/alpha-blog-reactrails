@@ -20,9 +20,9 @@ function SessionsNew() {
 
     axios.post('http://localhost:3000/login', data)
       .then((response) => {
-        console.log(response.headers);
-        // console.log(response.headers);
-        console.log('HEllo', response.headers.getAuthorization() );
+        console.log(response);
+        localStorage.setItem('token', response.data.jwt);
+        console.log('Hello', localStorage.getItem('token') );
       })
       .catch((error) => console.error(error));
   };
