@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-const categoryArticle_url = 'http://localhost:3000/api/v1/category/articles';
+const categoryArticle_url = 'http://localhost:3000/api/v1/categories/articles';
 import Article from '../articles/Article';
 
 function CategoriesShow() {

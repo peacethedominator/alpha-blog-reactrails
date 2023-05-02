@@ -2,7 +2,7 @@ import '../main.css';
 import Category from './Category';
 import { useState, useEffect } from 'react';
 
-const category_url = 'http://localhost:3000/api/v1/category';
+const category_url = 'http://localhost:3000/api/v1/categories';
 
 function CategoriesIndex() {
   const [items, setItems] = useState([]);

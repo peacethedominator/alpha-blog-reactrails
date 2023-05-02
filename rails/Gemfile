@@ -30,6 +30,7 @@ gem 'will_paginate', '~> 3.3'
 gem 'rails-controller-testing'
 gem 'activeadmin'
 gem 'devise'
+gem 'rack-cors'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

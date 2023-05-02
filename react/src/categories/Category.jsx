@@ -25,4 +25,4 @@ function Category(category) {
   )
 }
 
-export default Category
+export default Category;
