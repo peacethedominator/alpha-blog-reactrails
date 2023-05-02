@@ -1,0 +1,2 @@
+module CurrentBloggerHelper
+end

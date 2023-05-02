@@ -20,6 +20,7 @@ function RegistrationsForm() {
       });
 
       console.log(response.data);
+      console.log('Helo', response.headers.getAuthorization());
       // do something with the response
     } catch (error) {
       console.error(error);

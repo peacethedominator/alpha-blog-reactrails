@@ -1,16 +1,6 @@
 Rails.application.routes.draw do
-  get 'private/test'
   get '/current_blogger', to: 'current_blogger#index'
   devise_for :admin_users, ActiveAdmin::Devise.config
-  devise_for :bloggers, path: '', path_names: {
-    sign_in: 'login',
-    sign_out: 'logout',
-    registration: 'signup'
-  },
-  controllers: {
-    sessions: 'bloggers/sessions',
-    registrations: 'bloggers/registrations'
-  }
   ActiveAdmin.routes(self)
   root 'pages#home'
   get 'about', to: 'pages#about'
@@ -32,7 +22,16 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'categories', to: 'categories#index'
       get 'categories/articles', to: 'categories#show'
-
     end
   end
+
+  devise_for :bloggers, path: '', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'signup'
+  },
+  controllers: {
+    sessions: 'bloggers/sessions',
+    registrations: 'bloggers/registrations'
+  }
 end
