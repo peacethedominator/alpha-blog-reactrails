@@ -1,0 +1,55 @@
+<h1 class="text-center mt-4" id="logo1">Edit your profile</h1>
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-5 border-right">        
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+            <%# <span class="font-weight-bold">%= @user.username%</span> %>
+            <span class="text-black-50"><%= @blogger.email%></span><span> </span></div>
+        </div>
+        <%= render 'shared/errors', obj: @blogger %>
+        <div class="col-md-7 ">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <% if blogger_signed_in? %>
+                    <h4 class="text-right">Profile Settings</h4>
+                    <% end %>
+                </div>
+              <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                <div class="row mt-3">
+                    <div class="col-md-12 field">
+                      <label class="labels">Email</label>
+                      <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "form-control shadow rounded", placeholder: "Enter a username" %>
+                    </div>
+
+                    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+                    <% end %>
+
+                    <div class="col-md-12 mt-2 field">
+                      <label class="labels">Password</label><i>(leave blank if you don't want to change it)</i>
+                      <% if @minimum_password_length %>
+                      <em>(<%= @minimum_password_length %> characters minimum)</em>
+                      <% end %>
+                      <%= f.password_field :password, autocomplete: "new-password", class: "form-control shadow rounded", placeholder: "Enter new password" %>
+                    </div>
+                    <div class="col-md-12 mt-2 field">
+                      <label class="labels">Password Confirmation</label>
+                      <%= f.password_field :password_confirmation, class: "form-control shadow rounded", placeholder: "Re-enter your password", autocomplete: "new-password" %>
+                    </div>
+                    <div class="col-md-12 mt-2 field">
+                      <label class="labels">Current Password</label>
+                      <%= f.password_field :current_password, class: "form-control shadow rounded", placeholder: "Re-enter your password", autocomplete: "current-password" %>
+                    </div>
+                </div>
+                <div class="mt-5 text-center actions">
+                 <%= f.submit "Update account", class:"btn btn-success" %>
+                </div>
+              <% end %>
+              <div>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+              <%= link_to "Back", :back %>
+            </div>
+        </div>
+        
+    </div>
+</div>
