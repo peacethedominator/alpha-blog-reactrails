@@ -2,12 +2,13 @@ import { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { AuthContext } from '../../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function SessionsNew() {
   const { setIsLoggedIn } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const navigate = useNavigate();
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -25,7 +26,9 @@ function SessionsNew() {
         setIsLoggedIn(true);
         console.log(response);
         localStorage.setItem('token', response.data.jwt);
+        localStorage.setItem('blogger', response.data.data);
         console.log('Hello', localStorage.getItem('token') );
+        navigate("/articles");
       })
       .catch((error) => console.error(error));
   };

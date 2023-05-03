@@ -1,10 +1,22 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 
 function Navigation() {
-  // const bloggerSignedIn = true;
+  
   const { isLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+
+  const logOutBlogger = (e) =>{
+    e.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('blogger');
+    console.log(localStorage.getItem('user'));
+    setIsLoggedIn(false);
+    navigate("/");
+  }
 
   return (
     <>
@@ -106,7 +118,7 @@ function Navigation() {
                   </div>
                 </li>
                 <li className="nav-item">
-                  <Link to="#" className="nav-link">
+                  <Link to="#" className="nav-link" onClick={logOutBlogger}>
                     Log Out
                   </Link>
                 </li>
