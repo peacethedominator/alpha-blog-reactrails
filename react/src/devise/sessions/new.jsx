@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { AuthContext } from '../../AuthContext';
 
 function SessionsNew() {
+  const { setIsLoggedIn } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,6 +22,7 @@ function SessionsNew() {
 
     axios.post('http://localhost:3000/login', data)
       .then((response) => {
+        setIsLoggedIn(true);
         console.log(response);
         localStorage.setItem('token', response.data.jwt);
         console.log('Hello', localStorage.getItem('token') );
