@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
-const category_url = 'http://localhost:3000/api/v1/category'
+const category_url = 'http://localhost:3000/api/v1/categories'
 
 function ArticleForm() {
   const [categories, setCategories] = useState([]);

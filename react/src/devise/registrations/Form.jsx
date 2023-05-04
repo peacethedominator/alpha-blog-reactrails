@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import Button from 'react-bootstrap/Button';
+import { AuthContext } from '../../AuthContext';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function RegistrationsForm() {
+  const { setIsLoggedIn } = useContext(AuthContext);
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
@@ -18,13 +22,15 @@ function RegistrationsForm() {
           password_confirmation: passwordConfirmation,
         },
       });
-
-      console.log(response.data);
-      console.log('Helo', response.headers.getAuthorization());
-      // do something with the response
-    } catch (error) {
+      setIsLoggedIn(true);        
+      localStorage.setItem('token', response.data.jwt);
+      localStorage.setItem('blogger', response.data.data);
+      console.log(localStorage.getItem('token'));
+      console.log('Hello',localStorage.getItem('user'));
+      navigate("/articles");
+    } 
+    catch (error) {
       console.error(error);
-      // handle the error
     }
   };
 

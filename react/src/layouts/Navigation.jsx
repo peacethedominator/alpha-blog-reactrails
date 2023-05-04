@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 
@@ -8,12 +8,19 @@ function Navigation() {
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+    const blogger = localStorage.getItem('blogger');
+    if(token && blogger){
+      setIsLoggedIn(true);
+    }
+  })
 
   const logOutBlogger = (e) =>{
     e.preventDefault();
     localStorage.removeItem('token');
     localStorage.removeItem('blogger');
-    console.log(localStorage.getItem('user'));
+    console.log(localStorage.getItem('blogger'));
     setIsLoggedIn(false);
     navigate("/");
   }

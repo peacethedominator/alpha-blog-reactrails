@@ -1,8 +1,9 @@
-// import React from 'react';
 import Button from 'react-bootstrap/Button';
-// import Article from "../articles/Article";
+import { Link } from 'react-router-dom';
 
 function BloggerShow() {
+    const blogger = JSON.parse(window.localStorage.getItem('blogger'));
+    console.log(JSON.parse(window.localStorage.getItem('blogger')));
     return (
       <div>        
         <section className="h-100 gradient-custom-2">
@@ -17,7 +18,7 @@ function BloggerShow() {
                         style={{width: "150px", height:"150px", zIndex: "1"}}/>
                         {/* <% if blogger_signed_in? && @user== current_blogger%> */}
                             <div className="ml-4" data-mdb-ripple-color="dark" style={{zIndex: "1"}}>
-                                {/* <%= link_to "Edit Profile", edit_blogger_registration_path, className:"btn btn-outline-dark" %> */} <Button variant="dark" className='button-size mt-2'>Edit Profile</Button>{' '}
+                                <Link to="/bloggers/edit"> <Button variant="dark" className='button-size mt-2'>Edit Profile</Button>{' '} </Link>
                             </div>
                         {/* <% end %> */}
                         <div className="container">
@@ -36,7 +37,7 @@ function BloggerShow() {
                     </div>
                     <div className="ms-3 ml-3" style={{marginTop: "130px"}}>
                     <h5>
-                        {/* <%= @user.email%> */} Email
+                        {blogger.email}
                     </h5>
                     <p><em>India</em></p>
                     </div>

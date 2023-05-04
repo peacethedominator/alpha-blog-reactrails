@@ -26,8 +26,8 @@ function SessionsNew() {
         setIsLoggedIn(true);
         console.log(response);
         localStorage.setItem('token', response.data.jwt);
-        localStorage.setItem('blogger', response.data.data);
-        console.log('Hello', localStorage.getItem('token') );
+        localStorage.setItem('blogger', JSON.stringify(response.data.data));
+        console.log('Hello', localStorage.getItem('blogger') );
         navigate("/articles");
       })
       .catch((error) => console.error(error));
