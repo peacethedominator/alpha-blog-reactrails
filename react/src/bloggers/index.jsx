@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import BloggerCard from './BloggerCard';
 
-const blogger_url = 'http://localhost:3000/api/v1/blogger'
+const blogger_url = 'http://localhost:3000/api/v1/bloggers'
 
 const BloggerIndex = () => {
   const [items, setItems] = useState([]);

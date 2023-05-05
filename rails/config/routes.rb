@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get '/current_blogger', to: 'current_blogger#index'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   root 'pages#home'
@@ -14,17 +13,15 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      get 'blogger', to: 'bloggers#index'
-      post 'blogger', to: 'bloggers#create'
-    end
-  end
-  namespace :api do
-    namespace :v1 do
+      get 'bloggers', to: 'bloggers#index'
+      post 'bloggers', to: 'bloggers#create'
+      get 'currentblogger', to: 'current_blogger#index'
       get 'categories', to: 'categories#index'
       get 'categories/articles', to: 'categories#show'
+      post 'articles', to: 'articles#create'
+      get 'articles', to 'articles#index'
     end
   end
-
   devise_for :bloggers, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
