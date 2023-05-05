@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       get 'categories', to: 'categories#index'
       get 'categories/articles', to: 'categories#show'
       post 'articles', to: 'articles#create'
-      get 'articles', to 'articles#index'
+      get 'articles', to: 'articles#index'
     end
   end
   devise_for :bloggers, path: '', path_names: {

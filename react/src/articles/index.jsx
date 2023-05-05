@@ -1,8 +1,19 @@
+import { useEffect, useState } from "react";
 import Article from "./Article";
 
+const article_url = 'http://localhost:3000/api/v1/articles';
 const articleCount = 1;
 
 function ArticleIndex(){
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        fetch(article_url)
+        .then(response => response.json())
+        .then(response_items => {
+            setItems(response_items);
+        });
+    }, []);
     return(
         <>
         <div className="card" style={{margin: "20px 275px", backgroundColor: "black"}}>
@@ -12,9 +23,9 @@ function ArticleIndex(){
             <h3 className="text-light">No articles Found.</h3>}
         </div>
         <hr className="hr hr-blurry" style={{backgroundColor: "yellowgreen", marginLeft:"20px", marginRight:"20px"}} />
-        <Article />
-        <Article />
-        <Article />
+        {items.map((item) => (
+            <Article key={item.id} {...item} />
+        ))}
         <hr className="hr hr-blurry" style={{backgroundColor: "yellowgreen", margin: "-10px 20px 20px 20px"}} />
         <div className="flickr_pagination mb-4">
         </div>

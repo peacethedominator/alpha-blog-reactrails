@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const category_url = 'http://localhost:3000/api/v1/categories'
@@ -10,6 +10,8 @@ function ArticleForm() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const navigate = useNavigate();
+
   // const authToken = localStorage.getItem('token');
 
   useEffect(() => {
@@ -51,7 +53,7 @@ function ArticleForm() {
     axios.post(article_url, data,config)
       .then(response => {
         console.log(response.data);
-        // Redirect to articles listing page
+        navigate("/articles");
       })
       .catch(error => {
         console.log(error);

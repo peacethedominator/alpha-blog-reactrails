@@ -1,6 +1,6 @@
 class Api::V1::ArticlesController < ApplicationController
 before_action :set_article, only: [:show, :edit, :update, :destroy]
-before_action :authenticate_blogger!
+# before_action :authenticate_blogger!
 before_action :require_same_user, only: [:edit, :update, :destroy]
 protect_from_forgery with: :null_session
 
@@ -8,8 +8,14 @@ protect_from_forgery with: :null_session
   end
   
   def index
-    followed_users = current_blogger.followings
-    @articles = Article.where(blogger_id: followed_users).paginate(page: params[:page], per_page: 5)
+    # followed_users = current_blogger.followings
+    # @articles = Article.where(blogger_id: followed_users).paginate(page: params[:page], per_page: 5)
+    @articles = Article.all.map do |item|
+      item.attributes.merge({
+          blogger: item.blogger
+      })
+    end
+    render json: @articles
   end
 
   def new 
@@ -21,7 +27,6 @@ protect_from_forgery with: :null_session
   
 
   def create
-    byebug
     @article = Article.new(article_params)
     @article.blogger = Blogger.find(2)
     if @article.save
