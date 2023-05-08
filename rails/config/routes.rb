@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       post 'bloggers', to: 'bloggers#create'
       get 'currentblogger', to: 'current_blogger#index'
       get 'categories', to: 'categories#index'
-      get 'categories/articles', to: 'categories#show'
+      resources :categories, except: [:destroy, :index]
       post 'articles', to: 'articles#create'
       get 'articles', to: 'articles#index'
     end

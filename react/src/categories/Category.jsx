@@ -8,7 +8,7 @@ function Category(category) {
         <div className="card text-center shadow mb-5 rounded">
             <div className="card-body">
                 <h5 className="card-title ">
-                <Link to="#" className="text-success">{category.name}</Link>
+                  <Link to={`/categories/${category.id}`} className="text-success">{category.name}</Link>
                 </h5>
                 <p className="card-text">
                 {category.articlesCount} {pluralize('article', category.articlesCount)}

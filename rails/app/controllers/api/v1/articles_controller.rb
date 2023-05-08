@@ -12,7 +12,8 @@ protect_from_forgery with: :null_session
     # @articles = Article.where(blogger_id: followed_users).paginate(page: params[:page], per_page: 5)
     @articles = Article.all.map do |item|
       item.attributes.merge({
-          blogger: item.blogger
+          blogger: item.blogger,
+          categories: item.categories
       })
     end
     render json: @articles
@@ -28,7 +29,8 @@ protect_from_forgery with: :null_session
 
   def create
     @article = Article.new(article_params)
-    @article.blogger = Blogger.find(2)
+    @article.blogger = Blogger.find(5)
+    @article.categories << Category.find(params[:category_ids]) if params[:category_ids]
     if @article.save
       render json: { message: "Article created successfully!", article: @article }
     else

@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
-const categoryArticle_url = 'http://localhost:3000/api/v1/categories/articles';
+import { useParams } from 'react-router-dom';
 import Article from '../articles/Article';
 
 function CategoriesShow() {
-  const [items, setItems] = useState([]);
-
+  const [items, setItems] = useState();
+  const params = useParams()
+  const categoryArticle_url = `http://localhost:3000/api/v1/categories/${params.id}`;
   useEffect(() => {
-    fetch(categoryArticle_url)
+    fetch(categoryArticle_url, {
+      method: 'get',
+      headers:{
+        Authorization: localStorage.getItem('token')
+      }
+    })
       .then(response => response.json())
       .then(response_items => {
         setItems(response_items);
@@ -14,24 +20,31 @@ function CategoriesShow() {
   }, []);
 
   return (
-    <div>
-      {items.map((item) => (
-                <Article key={item.id} {...item} />
-      ))}
-        <h1 className="text-center mt-4"id="logo1">
-            {/* Category: <%= @category.name %> */} Category Name
-        </h1>
-        <h3 className="text-center mt-4" id="logo1">Articles</h3>
-        <div className="flickr_pagination">
-            {/* <%= will_paginate @articles, :container => false %> */}
-        </div>
-        {/* <%= render 'articles/article' %> */}
-        Articles
+    <>
+    {/* {console.log(items)} */}
+      {items && (
+        <div>
 
-        <div className="flickr_pagination mb-4">
-            {/* <%= will_paginate @articles, :container => false %> */}
-        </div>
-    </div>
+          <h1 className="text-center mt-4"id="logo1">
+            Category: {items.categories.name}
+          </h1>
+          <h3 className="text-center mt-4" id="logo1">Articles</h3>
+          <div className="flickr_pagination">
+              {/* <%= will_paginate @articles, :container => false %> */}
+          </div>
+          {/* <%= render 'articles/article' %> */}
+          Articles
+          <div>
+          {items.articles?.map((article) => (
+            <Article key={article.id} article={article} />
+          ))}
+          </div>
+          <div className="flickr_pagination mb-4">
+              {/* <%= will_paginate @articles, :container => false %> */}
+          </div>
+      </div>
+      )}
+      </>
   )
 }
 

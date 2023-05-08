@@ -39,12 +39,14 @@ class Api::V1::CategoriesController < ApplicationController
     end
 
     def show
-        # @category = Category.find(params[:id])
-        @category = Category.find(1)
-        @articles =@category.articles.as_json
-        render json: {
-            articles: @articles.as_json
-        }
+        @categories = Category.find(params[:id])
+        @articles =@categories.articles.map do |article|
+            article.attributes.merge({
+                blogger: article.blogger,
+                categories: article.categories
+            })
+        end
+        render json:  {categories: @categories, articles: @articles}
     end
 
     private
