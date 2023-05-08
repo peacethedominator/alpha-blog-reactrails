@@ -5,7 +5,6 @@ const blogger_url = 'http://localhost:3000/api/v1/bloggers'
 
 const BloggerIndex = () => {
   const [items, setItems] = useState([]);
-
   useEffect(() => {
     getBloggers();
   }, []);
@@ -17,7 +16,6 @@ const BloggerIndex = () => {
       setItems(response_items);
     });
   }
-
   return (
     <div>
       <div className="card" style={{margin: "20px 180px", backgroundColor: "black"}}>

@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
     skip_before_action :verify_authenticity_token
     helper_method :current_user   #, :logged_in?
 
-    def current_user
-         @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    def current_blogger
+         @current_blogger ||= Blogger.find(session[:blogger_id]) if session[:blogger_id]
         
     end
     # def logged_in?

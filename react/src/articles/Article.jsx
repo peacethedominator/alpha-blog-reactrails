@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 function Article(article){
     // console.log(article.categories.name);
-    console.log(article.article.blogger.email);
+    // console.log(article.article.blogger.email);
     return(
         <>
             <div className="container">

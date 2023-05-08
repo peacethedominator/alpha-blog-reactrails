@@ -1,8 +1,12 @@
 import Button from 'react-bootstrap/Button';
 import moment from 'moment';
+import { useAuth } from '../AuthContext';
 
 
 function BloggerCard(blogger) {
+  const currentBlogger = useAuth();
+  const currentUser = JSON.parse(currentBlogger.currentBlogger)
+
   return (
     <section className="vh-8">
             <div className="container py-5 h-100">
@@ -62,9 +66,15 @@ function BloggerCard(blogger) {
                                 <% end %>
                             <% end %>                   */}
                             <Button variant="success" className='button-size mt-2 ml-2 '>View</Button>{' '}
-                            <Button variant="info" className='button-size mt-2 ml-2'>Edit</Button>{' '}
-                            <Button variant="danger" className='button-size mt-2 ml-2'>Delete</Button>{' '}
-
+                            {currentUser.email == blogger.email ?
+                            <>
+                                <Button variant="info" className='button-size mt-2 ml-2'>Edit</Button>{' '}
+                                <Button variant="danger" className='button-size mt-2 ml-2'>Delete</Button>{' '}
+                            </>
+                            : <>
+                                <Button variant="info" className='button-size mt-2 ml-2'>Follow +</Button>{' '}
+                            </>
+                            }
 
                         </div>
                         </div>
