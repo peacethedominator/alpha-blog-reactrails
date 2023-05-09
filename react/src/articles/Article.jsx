@@ -1,12 +1,13 @@
 import Button from 'react-bootstrap/Button';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
 
 
 function Article(article){
-    // console.log(article.categories.name);
-    // console.log(article.article.blogger.email);
+    const currentBlogger = useAuth();
+    const currentUser = JSON.parse(currentBlogger.currentBlogger);
     return(
         <>
             <div className="container">
@@ -29,10 +30,13 @@ function Article(article){
                     <p className="card-text">
                         {article.article.description ||article.description}
                     </p>
-                       <Link to=""><Button variant="success" className='button-size mt-2'>View</Button>{' '}</Link> 
+                    <Link to={`/articles/${article.article.id}`}><Button variant="success" className='button-size mt-2'>View</Button>{' '}</Link> 
+                    {currentUser.email == article.article.blogger.email ?
+                    <>
                        <Link to=""><Button variant="info" className='button-size mt-2'>Edit</Button>{' '}</Link> 
                        <Link to=""><Button variant="danger" className='button-size mt-2'>Delete</Button>{' '}</Link> 
-
+                    </> 
+                    :<></>}
                     </div>
                     <div className="card-footer text-muted">
                     <small>

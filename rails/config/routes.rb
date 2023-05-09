@@ -18,8 +18,7 @@ Rails.application.routes.draw do
       get 'currentblogger', to: 'current_blogger#index'
       get 'categories', to: 'categories#index'
       resources :categories, except: [:destroy, :index]
-      post 'articles', to: 'articles#create'
-      get 'articles', to: 'articles#index'
+      resources :articles
     end
   end
   devise_for :bloggers, path: '', path_names: {

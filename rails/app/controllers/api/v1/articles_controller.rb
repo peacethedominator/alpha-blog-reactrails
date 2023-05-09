@@ -5,6 +5,9 @@ before_action :require_same_user, only: [:edit, :update, :destroy]
 protect_from_forgery with: :null_session
 
   def show
+    @blogger = @article.blogger
+    @categories = @article.categories
+    render json: {article: @article, blogger: @blogger, category: @categories}
   end
   
   def index

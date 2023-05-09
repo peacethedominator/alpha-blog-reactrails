@@ -1,9 +1,27 @@
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
+import { useEffect, useState } from 'react';
+import Article from '../articles/Article';
+
+const article_url = 'http://localhost:3000/api/v1/articles';
+
 
 function BloggerShow() {
-    const blogger = JSON.parse(window.localStorage.getItem('blogger'));
-    console.log(JSON.parse(window.localStorage.getItem('blogger')));
+    // const blogger = JSON.parse(window.localStorage.getItem('blogger'));
+    // console.log(JSON.parse(window.localStorage.getItem('blogger')));
+    
+    const currentBlogger = useAuth();
+    const currentUser = JSON.parse(currentBlogger.currentBlogger);
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        fetch(article_url)
+        .then(response => response.json())
+        .then(response_items => {
+            setItems(response_items);
+        });
+    }, []);
+
     return (
       <div>        
         <section className="h-100 gradient-custom-2">
@@ -31,13 +49,19 @@ function BloggerShow() {
                                         <%= button_to "+ Follow", user_follows_create_path(@user, followed_id: @user.id),className: "btn btn-outline-dark", method: :post %>
                                     <% end %>
                                 <% end %> */}
+                                {/* ================================================================================= */}
+                                {/* { !currentUser ? 
+                                  <Link to=""><Button variant="dark" className='button-size mt-2'>Follow</Button>{' '}</Link> 
+                                :
+                                  <Link to=""><Button variant="danger" className='button-size mt-2'>Unfollow</Button>{' '}</Link> 
+                                } */}
                             </div>
                             </div>
                         </div>
                     </div>
                     <div className="ms-3 ml-3" style={{marginTop: "130px"}}>
                     <h5>
-                        {blogger.email}
+                        {currentUser.email}
                     </h5>
                     <p><em>India</em></p>
                     </div>
@@ -79,7 +103,9 @@ function BloggerShow() {
                         {/* <%= will_paginate @articles, :container => false %> */}
                     </div>
                     <div className="row g-2">
-                    {/* <%= render 'articles/article' %> */} Article
+                    {/* <%= render 'articles/article' %> */} {items.map((item) => (<>
+                    {currentUser.email ==item.blogger.email && <Article key={item.id} article={item} />}</>
+                    ))}
                     </div>
                     <div className="flickr_pagination mb-4">
                         {/* <%= will_paginate @articles, :container => false %> */}

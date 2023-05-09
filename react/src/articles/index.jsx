@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import Article from "./Article";
-import { useAuth } from "../AuthContext";
 
 const article_url = 'http://localhost:3000/api/v1/articles';
 
 function ArticleIndex(){
-    const {isLoggedIn} = useAuth()
     const [items, setItems] = useState([]);
     const articleCount = items.length;
-    // console.log(articleCount);
     useEffect(() => {
         fetch(article_url)
         .then(response => response.json())

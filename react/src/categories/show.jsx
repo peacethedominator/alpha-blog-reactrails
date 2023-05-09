@@ -4,7 +4,7 @@ import Article from '../articles/Article';
 
 function CategoriesShow() {
   const [items, setItems] = useState();
-  const params = useParams()
+  const params = useParams();
   const categoryArticle_url = `http://localhost:3000/api/v1/categories/${params.id}`;
   useEffect(() => {
     fetch(categoryArticle_url, {
@@ -21,7 +21,6 @@ function CategoriesShow() {
 
   return (
     <>
-    {/* {console.log(items)} */}
       {items && (
         <div>
 
@@ -32,7 +31,6 @@ function CategoriesShow() {
           <div className="flickr_pagination">
               {/* <%= will_paginate @articles, :container => false %> */}
           </div>
-          {/* <%= render 'articles/article' %> */}
           Articles
           <div>
           {items.articles?.map((article) => (

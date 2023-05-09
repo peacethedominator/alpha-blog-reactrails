@@ -5,8 +5,7 @@ import { useAuth } from '../AuthContext';
 
 function BloggerCard(blogger) {
   const currentBlogger = useAuth();
-  const currentUser = JSON.parse(currentBlogger.currentBlogger)
-
+  const currentUser = JSON.parse(currentBlogger.currentBlogger);
   return (
     <section className="vh-8">
             <div className="container py-5 h-100">
@@ -24,7 +23,7 @@ function BloggerCard(blogger) {
                         </div>
                         <div className="flex-grow-1 ms-3">
                         <h5 className="mb-1 ml-3">
-                            {/* <%= link_to user.email, user_path(user)  %> */}{blogger.email}
+                            {blogger.email}
                         </h5>
                         <small className="mb-2 pb-1 ml-2" style={{color: "#2b2a2a"}}>
                             Joined {moment(blogger.created_at).fromNow() }

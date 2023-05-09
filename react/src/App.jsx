@@ -31,7 +31,7 @@ function App() {
           <Route exact path="/articles" element={<ArticleIndex />} />
           <Route exact path="/articles/new" element={<ArticleNew />} />
           <Route exact path="/articles/edit" element={<ArticleEdit />} />
-          <Route exact path="/articles/show" element={<ArticleShow />} />
+          <Route exact path="/articles/:id" element={<ArticleShow />} />
           <Route exact path="/categories" element={<CategoriesIndex />} />
           <Route exact path="/categories/:id" element={<CategoriesShow />} />
           <Route exact path="/bloggers/signin" element={<SessionsNew />} />
