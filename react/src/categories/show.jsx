@@ -5,19 +5,16 @@ import Article from '../articles/Article';
 function CategoriesShow() {
   const [items, setItems] = useState();
   const params = useParams();
-  const categoryArticle_url = `http://localhost:3000/api/v1/categories/${params.id}`;
   useEffect(() => {
+    const categoryArticle_url = `http://localhost:3000/api/v1/categories/${params.id}`;
     fetch(categoryArticle_url, {
-      method: 'get',
-      headers:{
-        Authorization: localStorage.getItem('token')
-      }
+      method: 'get'
     })
       .then(response => response.json())
       .then(response_items => {
         setItems(response_items);
       });
-  }, []);
+  }, [params.id]);
 
   return (
     <>

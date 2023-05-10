@@ -27,7 +27,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />}/>
           <Route exact path="/bloggers" element={<BloggerIndex />} />
-          <Route exact path="/bloggers/show" element={<BloggerShow />} />
+          <Route exact path="/bloggers/:id" element={<BloggerShow />} />
           <Route exact path="/articles" element={<ArticleIndex />} />
           <Route exact path="/articles/new" element={<ArticleNew />} />
           <Route exact path="/articles/edit" element={<ArticleEdit />} />

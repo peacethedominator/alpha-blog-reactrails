@@ -58,14 +58,14 @@ function RegistrationsEdit() {
                     {/* &lt;% end %&gt; &lt;%= f.password_field :password, autocomplete:
                     "new-password", class: "form-control shadow rounded", placeholder:
                     "Enter new password" %&gt; */}
-                    <input className= "form-control shadow rounded" placeholder= "Enter new password" />
+                    <input className= "form-control shadow rounded" placeholder= "Enter new password" type='password' />
                     </div>
                     <div className="col-md-12 mt-2 field">
-                    <label className="labels">Password Confirmation</label>
+                    <label className="labels" >Password Confirmation</label>
                     {/* &lt;%= f.password_field :password_confirmation, class:
                     "form-control shadow rounded", placeholder: "Re-enter your
                     password", autocomplete: "new-password" %&gt; */}
-                    <input className= "form-control shadow rounded" placeholder= "Re-enter new password" />
+                    <input className= "form-control shadow rounded" placeholder= "Re-enter new password" type='password'/>
 
                     </div>
                     <div className="col-md-12 mt-2 field">
@@ -73,7 +73,7 @@ function RegistrationsEdit() {
                     {/* &lt;%= f.password_field :current_password, class: "form-control
                     shadow rounded", placeholder: "Re-enter your password",
                     autocomplete: "current-password" %&gt; */}
-                    <input className= "form-control shadow rounded" placeholder= "Enter current password" />
+                    <input className= "form-control shadow rounded" placeholder= "Enter current password" type='password'/>
 
                     </div>
                 </div>

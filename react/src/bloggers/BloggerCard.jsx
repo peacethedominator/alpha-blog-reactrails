@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import moment from 'moment';
 import { useAuth } from '../AuthContext';
+import { Link } from 'react-router-dom';
 
 
 function BloggerCard(blogger) {
@@ -64,14 +65,14 @@ function BloggerCard(blogger) {
                                         <%= link_to "Delete user", user_path(user), className: "btn btn-outline-danger ml-2", method: :delete, data:{confirm: "Are you sure you want to delete the user account and related data?" } %>
                                 <% end %>
                             <% end %>                   */}
-                            <Button variant="success" className='button-size mt-2 ml-2 '>View</Button>{' '}
+                            <Link to=  {`/bloggers/${currentUser.id}`}><Button variant="success" className='button-size mt-2 ml-2 '>View</Button>{' '}</Link>
                             {currentUser.email == blogger.email ?
                             <>
-                                <Button variant="info" className='button-size mt-2 ml-2'>Edit</Button>{' '}
-                                <Button variant="danger" className='button-size mt-2 ml-2'>Delete</Button>{' '}
+                                <Link to=""><Button variant="info" className='button-size mt-2 ml-2'>Edit</Button>{' '}</Link>
+                                <Link to=""><Button variant="danger" className='button-size mt-2 ml-2'>Delete</Button>{' '}</Link>
                             </>
                             : <>
-                                <Button variant="info" className='button-size mt-2 ml-2'>Follow +</Button>{' '}
+                                <Link to=""><Button variant="info" className='button-size mt-2 ml-2'>Follow +</Button>{' '}</Link>
                             </>
                             }
 

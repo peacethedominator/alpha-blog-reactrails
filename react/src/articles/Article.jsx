@@ -16,10 +16,10 @@ function Article(article){
                 <div
                     className="card text-center shadow mb-5 rounded" style={{ backgroundImage: "linear-gradient(to bottom, #99ccff 0%, #ffffff 74%)" }} >
                     <div className="card-header font-italic">
-                        <Link to='/bloggers' className='font-weight-bold'>{article.article.blogger.email || article.blogger.email }</Link>
+                        <Link to={`/bloggers/${article.article.blogger.id}`} className='font-weight-bold'>{article.article.blogger.email || article.blogger.email }</Link>
                         <div className="mt-2">
                             {article.article.categories.map(category => (
-                                <span key={category.id} className="badge badge-pill badge-success mr-2">{category.name}</span>
+                             <Link to={`/categories/${category.id}`} key={category.id} className="badge badge-pill badge-success mr-2 text-decoration-none">{category.name}</Link>
                             ))}
                         </div>
                     </div>

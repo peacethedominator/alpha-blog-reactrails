@@ -38,7 +38,7 @@ function ArticleShow(){
                         <Link to="/bloggers" className='font-weight-bold'>{items.blogger.email}</Link>
                         <div className="mt-2">
                             {items.category.map(category => (
-                                    <span key={category.id} className="badge badge-pill badge-success mr-2">{category.name}</span>
+                                <Link to={`/categories/${category.id}`} key={category.id} className="badge badge-pill badge-success mr-2 text-decoration-none">{category.name}</Link>
                             ))}
                         </div>
                     </div>

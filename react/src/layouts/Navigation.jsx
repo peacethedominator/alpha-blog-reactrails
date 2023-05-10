@@ -1,9 +1,14 @@
 import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../AuthContext";
+import { AuthContext, useAuth } from "../AuthContext";
 
 function Navigation() {
   
+  const currentBlogger = useAuth();
+  const currentUser = currentBlogger.currentBlogger && JSON.parse(currentBlogger.currentBlogger);
+  const current = currentUser;
+  console.log(currentUser);
+
   const { isLoggedIn } = useContext(AuthContext);
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -27,6 +32,7 @@ function Navigation() {
 
   return (
     <>
+    {current && (
       <nav className="navbar navbar-expand-lg navbar-light bg-dark">
         <Link to="/" className="navbar-brand" id="logo">
           ALPHA BLOG
@@ -113,7 +119,7 @@ function Navigation() {
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
                   >
-                    <Link to="/bloggers/show" className="dropdown-item">
+                    <Link to=  {`/bloggers/${current.id}`} className="dropdown-item">
                       View your profile
                     </Link>
                     <Link to="/bloggers/edit" className="dropdown-item">
@@ -147,7 +153,8 @@ function Navigation() {
           </ul>
         </div>
       </nav>
-    </>
-  );
+    )}
+      </>
+      );
 }
 export default Navigation;

@@ -1,29 +1,26 @@
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Article from '../articles/Article';
 
-const article_url = 'http://localhost:3000/api/v1/articles';
 
-
-function BloggerShow() {
-    // const blogger = JSON.parse(window.localStorage.getItem('blogger'));
-    // console.log(JSON.parse(window.localStorage.getItem('blogger')));
-    
-    const currentBlogger = useAuth();
-    const currentUser = JSON.parse(currentBlogger.currentBlogger);
-    const [items, setItems] = useState([]);
+function BloggerShow() {   
+    const [items, setItems] = useState();
+    const params = useParams();   
     useEffect(() => {
-        fetch(article_url)
+    const blogger_url = `http://localhost:3000/api/v1/bloggers/${params.id}`;
+    fetch(blogger_url, {
+        method: 'get',
+      })
         .then(response => response.json())
         .then(response_items => {
-            setItems(response_items);
+          setItems(response_items);
         });
-    }, []);
+    }, [params.id]);
 
     return (
-      <div>        
+      <div>    
+        {items && (  
         <section className="h-100 gradient-custom-2">
         <div className="container py-5 h-100">
             <div className="row d-flex justify-content-center h-100" style={{marginLeft: "-250px"}}>
@@ -61,7 +58,7 @@ function BloggerShow() {
                     </div>
                     <div className="ms-3 ml-3" style={{marginTop: "130px"}}>
                     <h5>
-                        {currentUser.email}
+                        {items.blogger.email}
                     </h5>
                     <p><em>India</em></p>
                     </div>
@@ -70,21 +67,21 @@ function BloggerShow() {
                     <div className="d-flex justify-content-end text-center py-1">
                     <div>
                         <p className="mb-1 h5">
-                            {/* <%= @user.articles.count%> */} Articles Count
-                            </p>
+                            {items.articles.length}
+                        </p>
                         <p className="small text-muted mb-0">Articles</p>
                     </div>
                     <div className="px-3">
                         <p className="mb-1 h5">
-                            {/* <%= @user.followers.count%> */}Followers count
+                            {items.follows.follower.length}
                         </p>
                         <p className="small text-muted mb-0">Followers</p>
                     </div>
                     <div>
                         <p className="mb-1 h5">
-                            {/* <%= @user.followings.count%> */} Following count
+                            {items.follows.following.length}
                         </p>
-                        <p className="small text-muted mb-0">Following</p>
+                        <p className="small text-muted mb-0">Followings</p>
                     </div>
                     </div>
                 </div>
@@ -103,8 +100,8 @@ function BloggerShow() {
                         {/* <%= will_paginate @articles, :container => false %> */}
                     </div>
                     <div className="row g-2">
-                    {/* <%= render 'articles/article' %> */} {items.map((item) => (<>
-                    {currentUser.email ==item.blogger.email && <Article key={item.id} article={item} />}</>
+                    {items.articles.map((item) => (
+                        <Article key={item.id} article={item} />
                     ))}
                     </div>
                     <div className="flickr_pagination mb-4">
@@ -132,6 +129,7 @@ function BloggerShow() {
             </div>
         </div>
         </section>
+        )}  
       </div>
     )
   }

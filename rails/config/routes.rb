@@ -13,12 +13,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      get 'bloggers', to: 'bloggers#index'
-      post 'bloggers', to: 'bloggers#create'
       get 'currentblogger', to: 'current_blogger#index'
       get 'categories', to: 'categories#index'
       resources :categories, except: [:destroy, :index]
       resources :articles
+      resources :bloggers
     end
   end
   devise_for :bloggers, path: '', path_names: {
