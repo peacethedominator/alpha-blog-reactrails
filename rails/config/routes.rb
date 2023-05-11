@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      get 'currentblogger', to: 'current_blogger#index'
+      get 'currentblogger', to: 'current_blogger#show'
       get 'categories', to: 'categories#index'
       resources :categories, except: [:destroy, :index]
       resources :articles

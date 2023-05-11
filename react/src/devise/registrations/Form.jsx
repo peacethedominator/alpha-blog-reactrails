@@ -23,10 +23,10 @@ function RegistrationsForm() {
         },
       });
       setIsLoggedIn(true);        
-      localStorage.setItem('token', response.data.jwt);
+      localStorage.setItem('token', response.headers.getAuthorization());
       localStorage.setItem('blogger', response.data.data);
       console.log(localStorage.getItem('token'));
-      console.log('Hello',localStorage.getItem('user'));
+      console.log('Hello',localStorage.getItem('blogger'));
       navigate("/articles");
     } 
     catch (error) {

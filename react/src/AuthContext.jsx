@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
@@ -12,9 +13,10 @@ const AuthProvider = ({ children }) => {
   useEffect(()=>{
     const user = localStorage.getItem("blogger");
     const token = localStorage.getItem("token");
-    if(user && token)
-    setIsLoggedIn(true);
-    setCurrentBlogger(user);
+    if(user && token){
+      setIsLoggedIn(true);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("token");
+      setCurrentBlogger(user);}
   },[isLoggedIn,currentBlogger]);
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, currentBlogger, setCurrentBlogger }}>

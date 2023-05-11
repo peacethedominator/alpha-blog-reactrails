@@ -61,7 +61,7 @@ class Api::V1::BloggersController < ApplicationController
             flash[:notice] = "Your account information was successfully updated"
             render json: @blogger
         else 
-            render json: @blogger.errors, status :unprocessable_entity
+            render json: @blogger.errors
         end
     end
 

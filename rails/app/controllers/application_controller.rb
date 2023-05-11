@@ -1,12 +1,12 @@
 class ApplicationController < ActionController::Base
     protect_from_forgery with: :null_session
     skip_before_action :verify_authenticity_token
-    helper_method :current_user   #, :logged_in?
+    # helper_method :current_blogger   #, :logged_in?
 
-    def current_blogger
-         @current_blogger ||= Blogger.find(session[:blogger_id]) if session[:blogger_id]
+    # def current_blogger
+    #      @current_blogger ||= Blogger.find(session[:blogger_id]) if session[:blogger_id]
         
-    end
+    # end
     # def logged_in?
     #     !!current_blogger
     # end

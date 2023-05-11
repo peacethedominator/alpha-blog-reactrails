@@ -1,8 +1,10 @@
 import Button from 'react-bootstrap/Button';
+import { useAuth } from '../../AuthContext';
 
 function RegistrationsEdit() {
+    const currentBlogger = useAuth();
+    const currentUser = JSON.parse(currentBlogger.currentBlogger);
   return (
-
         <>
         <h1 className="text-center mt-4" id="logo1">
             Edit your profile
@@ -17,7 +19,7 @@ function RegistrationsEdit() {
                     src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
                 />
                 <span className="text-black-50">
-                    {/* &lt;%= @blogger.email%&gt; */} Blogger.email
+                    {currentUser.email}
                 </span>
                 <span> </span>
                 </div>

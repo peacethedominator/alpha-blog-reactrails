@@ -1,26 +1,38 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext, useAuth } from "../AuthContext";
-
+import { AuthContext } from "../AuthContext";
 function Navigation() {
   
-  const currentBlogger = useAuth();
-  const currentUser = currentBlogger.currentBlogger && JSON.parse(currentBlogger.currentBlogger);
-  const current = currentUser;
-  console.log(currentUser);
-
+  // const currentBlogger = useAuth();
+  // const currentUser = currentBlogger.currentBlogger && JSON.parse(currentBlogger.currentBlogger);
+  // const current = currentUser;
+  // console.log(currentUser);
+  const [blogger,setBlogger] = useState();
   const { isLoggedIn } = useContext(AuthContext);
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  
   useEffect(()=>{
     const token = localStorage.getItem('token');
-    const blogger = localStorage.getItem('blogger');
+    const blogger = JSON.parse(localStorage.getItem('blogger'));
     if(token && blogger){
+      console.log(blogger.id);
       setIsLoggedIn(true);
     }
   })
 
+  useEffect(()=>{
+  fetch("http://localhost:3000/api/v1/currentblogger", {
+    method: 'GET',
+    headers:{
+      'Authorization': localStorage.getItem("token")
+    }})
+    .then(response => response.json())
+    .then(result => setBlogger(result))
+    .catch(error => console.log('error', error))
+    })
+    
+  
   const logOutBlogger = (e) =>{
     e.preventDefault();
     localStorage.removeItem('token');
@@ -32,7 +44,7 @@ function Navigation() {
 
   return (
     <>
-    {current && (
+    {/* {current && ( */}
       <nav className="navbar navbar-expand-lg navbar-light bg-dark">
         <Link to="/" className="navbar-brand" id="logo">
           ALPHA BLOG
@@ -119,7 +131,7 @@ function Navigation() {
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
                   >
-                    <Link to=  {`/bloggers/${current.id}`} className="dropdown-item">
+                    <Link to=  {`/bloggers/${blogger?.id}`} className="dropdown-item">
                       View your profile
                     </Link>
                     <Link to="/bloggers/edit" className="dropdown-item">
@@ -153,7 +165,7 @@ function Navigation() {
           </ul>
         </div>
       </nav>
-    )}
+    {/* )} */}
       </>
       );
 }
