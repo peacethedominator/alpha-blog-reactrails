@@ -25,7 +25,6 @@ function SessionsNew() {
       .then((response) => {
         setIsLoggedIn(true);
         console.log(response);
-        // console.log("asdfgh",response.headers.getAuthorization());
         localStorage.setItem('token', response.headers.getAuthorization());
         localStorage.setItem('blogger', JSON.stringify(response.data.data));
         console.log('Hello', localStorage.getItem('blogger') );

@@ -16,7 +16,7 @@ function Navigation() {
     const token = localStorage.getItem('token');
     const blogger = JSON.parse(localStorage.getItem('blogger'));
     if(token && blogger){
-      console.log(blogger.id);
+      // console.log(blogger.id);
       setIsLoggedIn(true);
     }
   })
@@ -44,7 +44,6 @@ function Navigation() {
 
   return (
     <>
-    {/* {current && ( */}
       <nav className="navbar navbar-expand-lg navbar-light bg-dark">
         <Link to="/" className="navbar-brand" id="logo">
           ALPHA BLOG
@@ -165,7 +164,6 @@ function Navigation() {
           </ul>
         </div>
       </nav>
-    {/* )} */}
       </>
       );
 }

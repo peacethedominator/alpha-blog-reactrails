@@ -14,12 +14,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'currentblogger', to: 'current_blogger#show'
-      get 'categories', to: 'categories#index'
-      resources :categories, except: [:destroy, :index]
+      resources :categories, except: [:destroy]
       resources :articles
       resources :bloggers
     end
   end
+
   devise_for :bloggers, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',

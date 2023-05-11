@@ -1,7 +1,7 @@
 class Api::V1::BloggersController < ApplicationController 
     before_action :set_user, only: [:show, :destroy, :edit, :update]
     # before_action :authenticate_blogger!, only: [:edit, :update]
-    before_action :require_same_user, only: [:edit, :destroy, :update]
+    # before_action :require_same_user, only: [:edit, :destroy, :update]
     
     
     def show

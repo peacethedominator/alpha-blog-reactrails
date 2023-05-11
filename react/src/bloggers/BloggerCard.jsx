@@ -68,7 +68,7 @@ function BloggerCard(blogger) {
                             <Link to=  {`/bloggers/${currentUser.id}`}><Button variant="success" className='button-size mt-2 ml-2 '>View</Button>{' '}</Link>
                             {currentUser.email == blogger.email ?
                             <>
-                                <Link to=""><Button variant="info" className='button-size mt-2 ml-2'>Edit</Button>{' '}</Link>
+                                <Link to="/bloggers/edit"><Button variant="info" className='button-size mt-2 ml-2'>Edit</Button>{' '}</Link>
                                 <Link to=""><Button variant="danger" className='button-size mt-2 ml-2'>Delete</Button>{' '}</Link>
                             </>
                             : <>
