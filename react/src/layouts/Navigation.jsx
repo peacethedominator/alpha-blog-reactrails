@@ -21,14 +21,14 @@ function Navigation() {
   })
 
   useEffect(()=>{
-  fetch("http://localhost:3000/api/v1/currentblogger", {
-    method: 'GET',
-    headers:{
-      'Authorization': localStorage.getItem("token")
-    }})
-    .then(response => response.json())
-    .then(result => setBlogger(result))
-    .catch(error => console.log('error', error))
+    fetch("http://localhost:3000/api/v1/currentblogger", {
+      method: 'GET',
+      headers:{
+        'Authorization': localStorage.getItem("token")
+      }})
+      .then(response => response.json())
+      .then(result => setBlogger(result))
+      .catch(error => console.log('error', error))
     })
     
   
@@ -67,6 +67,7 @@ function Navigation() {
       });
     }
   }
+  // console.log(blogger);
 
   return (
     <>

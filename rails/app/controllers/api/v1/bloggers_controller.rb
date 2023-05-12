@@ -24,7 +24,9 @@ class Api::V1::BloggersController < ApplicationController
             blogger.attributes.merge({
                 followingsCount: blogger.followings.count,
                 followersCount: blogger.followers.count,
-                articlesCount: blogger.articles.count
+                articlesCount: blogger.articles.count,
+                followings: blogger.followings,
+                followers: blogger.followers
             }).except('encrypted_password','reset_password_token','reset_password_sent_at','remember_created_at"')
             end
         render json: @bloggers
@@ -47,7 +49,8 @@ class Api::V1::BloggersController < ApplicationController
         
             if @blogger && @blogger.valid_password?(params[:password])
               sign_in(@blogger)
-              redirect_to root_path
+              render json: @blogger
+            #   redirect_to root_path
             else
               flash.now[:alert] = "Invalid email or password"
               render :new

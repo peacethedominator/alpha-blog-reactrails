@@ -17,6 +17,10 @@ Rails.application.routes.draw do
       resources :categories, except: [:destroy]
       resources :articles
       resources :bloggers
+      resources :bloggers do
+        post 'follows/create', to: 'follows#create'
+        delete 'follows/destroy', to: 'follows#destroy'
+      end
     end
   end
 

@@ -1,14 +1,87 @@
 import Button from 'react-bootstrap/Button';
 import moment from 'moment';
-import { useAuth } from '../AuthContext';
-import { Link } from 'react-router-dom';
+import { AuthContext, useAuth } from '../AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 
 
-function BloggerCard(blogger) {
-  const currentBlogger = useAuth();
-  const currentUser = JSON.parse(currentBlogger.currentBlogger);
+function BloggerCard({blogger,currentBlogger,setCurrentBlogger}) {
+  // const currentBlogger = useAuth();
+  // const currentUser = JSON.parse(currentBlogger.currentBlogger);
+  const { setIsLoggedIn } = useContext(AuthContext);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('curr', currentBlogger)
+    if(currentBlogger)
+      setIsFollowing(
+        currentBlogger.followings.some(b => b.id === blogger.id)
+      )
+  }, [currentBlogger])
+
+
+  const unfollowBlogger = () => {
+    fetch(`http://localhost:3000/api/v1/bloggers/${blogger.id}/follows/destroy`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': localStorage.getItem("token")
+      }
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log('re', response)
+      setCurrentBlogger({
+        ...currentBlogger,
+        followings: response.followed_array
+      })
+    })
+    .catch(error => console.log(error));
+  };
+  const followBlogger = () => {
+    fetch(`http://localhost:3000/api/v1/bloggers/${blogger.id}/follows/create`, {
+      method: 'POST',
+      headers: {
+        'Authorization': localStorage.getItem("token")
+      }
+    })
+    .then(response => response.json())
+    .then(response => {
+      // console.log('re', response)
+      setCurrentBlogger({
+        ...currentBlogger,
+        followings: response.followed_array
+      })
+    })
+    .catch(error => console.log(error));
+  };
+
+  const deleteItem=()=> {
+    if (window.confirm("Are you sure you want to delete your profile? (This action can not be undone)")) {
+      fetch(`http://localhost:3000/api/v1/bloggers/${blogger.id}`, {
+        method: 'DELETE',
+        headers:{
+          'Authorization': localStorage.getItem("token")
+        }
+      })
+      .then(response => {
+        localStorage.removeItem('blogger')
+        localStorage.removeItem('token')
+        console.log(response)
+        if (response.ok) {
+          setIsLoggedIn(false);
+          navigate("/");
+        } else {
+          navigate(`/bloggers/${blogger?.id}`);
+          console.log(response);
+        }
+      })
+      .catch(error => { console.log(error); });
+    }
+  }
   return (
     <section className="vh-8">
+      {blogger && currentBlogger && (
             <div className="container py-5 h-100">
             <div className="row d-flex justify-content-center h-100" style={{marginLeft:"-100px"}}>
                 <div className="col col-md-9 col-lg-7 col-xl-5">
@@ -51,28 +124,18 @@ function BloggerCard(blogger) {
                             </div>
                         </div>
                         <div className="d-flex pt-1">
-                            {/* <%= link_to "View profile", users_path, className: "btn btn-outline-success ml-2" %>
-                            <% unless current_blogger == user %>
-                                <% if current_blogger.followings.include?(user) %>
-                                    <%= button_to "Unfollow", user_follows_destroy_path(user, followed_id: user.id), className: "btn btn-outline-danger ml-2", method: :delete, data:{confirm: "Are you sure you want to unfollow? "} %>
-                                <% else %>
-                                    <%= button_to "+ Follow", user_follows_create_path(user, followed_id: user.id),className: "btn btn-outline-info ml-2", method: :post %>
-                                <% end %>
-                            <% end %>
-                            <% if blogger_signed_in? %>
-                                <% if user == current_blogger %>
-                                    <%= link_to "Edit profile", edit_user_path(user), className: "btn btn-outline-info ml-2" %>
-                                        <%= link_to "Delete user", user_path(user), className: "btn btn-outline-danger ml-2", method: :delete, data:{confirm: "Are you sure you want to delete the user account and related data?" } %>
-                                <% end %>
-                            <% end %>                   */}
-                            <Link to=  {`/bloggers/${currentUser.id}`}><Button variant="success" className='button-size mt-2 ml-2 '>View</Button>{' '}</Link>
-                            {currentUser.email == blogger.email ?
+                            <Link to=  {`/bloggers/${blogger.id}`}><Button variant="success" className='button-size mt-2 ml-2 '>View</Button>{' '}</Link>
+                            {currentBlogger.email == blogger.email ?
                             <>
                                 <Link to="/bloggers/edit"><Button variant="info" className='button-size mt-2 ml-2'>Edit</Button>{' '}</Link>
-                                <Link to=""><Button variant="danger" className='button-size mt-2 ml-2'>Delete</Button>{' '}</Link>
+                                <Link to="" onClick={deleteItem}><Button variant="danger" className='button-size mt-2 ml-2'>Delete</Button>{' '}</Link>
                             </>
                             : <>
-                                <Link to=""><Button variant="info" className='button-size mt-2 ml-2'>Follow +</Button>{' '}</Link>
+                                {isFollowing ? (
+                                <Link to="" onClick={unfollowBlogger}><Button variant="danger" className='button-size mt-2 ml-2'>Unfollow</Button>{' '}</Link>
+                                ) : (
+                                <Link to="" onClick={followBlogger}><Button variant="info" className='button-size mt-2 ml-2'>Follow +</Button>{' '}</Link>
+                                )}
                             </>
                             }
 
@@ -84,6 +147,7 @@ function BloggerCard(blogger) {
                 </div>
             </div>
             </div>
+            )}
         </section>
   )
 }
