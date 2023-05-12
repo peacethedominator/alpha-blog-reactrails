@@ -1,7 +1,9 @@
 import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function RegistrationsEdit() {
+  const navigate = useNavigate();
   const [blogger,setBlogger] = useState({ 
     email: '', 
     password: '',
@@ -31,7 +33,8 @@ function RegistrationsEdit() {
       body: JSON.stringify(blogger)
     })
     .then(response => response.json())
-    .then(result => console.log(result))
+    .then(result => {console.log(result);
+    navigate(`/bloggers/${blogger?.id}`);})
     .catch(error => console.log('error', error))
   }
   

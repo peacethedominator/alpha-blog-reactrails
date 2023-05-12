@@ -22,9 +22,10 @@ function RegistrationsForm() {
           password_confirmation: passwordConfirmation,
         },
       });
-      setIsLoggedIn(true);        
+      setIsLoggedIn(true);       
+      console.log("response: ",response); 
       localStorage.setItem('token', response.headers.getAuthorization());
-      localStorage.setItem('blogger', response.data.data);
+      localStorage.setItem('blogger', JSON.stringify(response.data.data));
       console.log(localStorage.getItem('token'));
       console.log('Hello',localStorage.getItem('blogger'));
       navigate("/articles");

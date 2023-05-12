@@ -8,13 +8,12 @@ function Navigation() {
   // const current = currentUser;
   // console.log(currentUser);
   const [blogger,setBlogger] = useState();
-  const { isLoggedIn } = useContext(AuthContext);
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   
   useEffect(()=>{
     const token = localStorage.getItem('token');
-    const blogger = JSON.parse(localStorage.getItem('blogger'));
+    // const blogger = JSON.parse(localStorage.getItem('blogger'));
     if(token && blogger){
       // console.log(blogger.id);
       setIsLoggedIn(true);
@@ -40,6 +39,33 @@ function Navigation() {
     console.log(localStorage.getItem('blogger'));
     setIsLoggedIn(false);
     navigate("/");
+  }
+  const deleteItem=()=> {
+    if (window.confirm("Are you sure you want to delete your profile? (This action can not be undone)")) {
+      fetch(`http://localhost:3000/api/v1/bloggers/${blogger.id}`, {
+        method: 'DELETE',
+        headers:{
+          'Authorization': localStorage.getItem("token")
+        }
+      })
+      .then(response => {
+        localStorage.removeItem('blogger')
+        localStorage.removeItem('token')
+        
+        console.log(response)
+        if (response.ok) {
+
+          setIsLoggedIn(false);
+          navigate("/");
+        } else {
+          navigate(`/bloggers/${blogger?.id}`);
+          console.log(response);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
   }
 
   return (
@@ -136,7 +162,7 @@ function Navigation() {
                     <Link to="/bloggers/edit" className="dropdown-item">
                       Edit your profile
                     </Link>
-                    <Link to="#" className="dropdown-item">
+                    <Link to="#" className="dropdown-item text-danger" onClick={deleteItem}>
                       Delete your profile
                     </Link>
                   </div>

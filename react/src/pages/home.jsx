@@ -15,7 +15,7 @@ function Home(){
                 <p className="lead" >This is a simple application, that allows the users to create some blog related to different categories and experiences.</p>
                 <hr className="my-4"/>
                 <p className="font-weight-normal " >“Where the Internet is about availability of information, blogging is about making information creation available to anyone.”</p>
-                { !currentBlogger  ?
+                { currentBlogger  ?
                 <Link to="/articles"><Button variant="success" className='button-size mt-2'>Articles</Button>{' '}</Link> :
                 <Link to="/bloggers/signup"><Button variant="success" className='button-size mt-2'>Sign Up!</Button>{' '}</Link>}
             </div>

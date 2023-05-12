@@ -67,10 +67,12 @@ class Api::V1::BloggersController < ApplicationController
 
     def destroy
         @blogger.destroy
-        session[:blogger_id] = nil if @blogger == current_blogger
-        flash[:notice]="Account and all associated articles have been deleted!"
-        redirect_to articles_path
-    end
+        render json: { message: "Account and all associated articles have been deleted!" }, status: :ok
+        if(!@blogger.destroy)
+          render json: { error: "Failed to delete account and associated articles" }, status: :unprocessable_entity
+        end
+      end
+      
     private 
     def blogger_params
         params.require(:blogger).permit( :email, :password)
