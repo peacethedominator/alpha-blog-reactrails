@@ -30,7 +30,7 @@ function App() {
           <Route exact path="/bloggers/:id" element={<BloggerShow />} />
           <Route exact path="/articles" element={<ArticleIndex />} />
           <Route exact path="/articles/new" element={<ArticleNew />} />
-          <Route exact path="/articles/edit" element={<ArticleEdit />} />
+          <Route exact path="/articles/:id/edit" element={<ArticleEdit />} />
           <Route exact path="/articles/:id" element={<ArticleShow />} />
           <Route exact path="/categories" element={<CategoriesIndex />} />
           <Route exact path="/categories/:id" element={<CategoriesShow />} />

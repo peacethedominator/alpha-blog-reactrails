@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 
 const category_url = 'http://localhost:3000/api/v1/categories'
 const article_url = 'http://localhost:3000/api/v1/articles'
 
 function ArticleForm() {
+  const params = useParams();
+  const [blogger,setBlogger] = useState();
   const [categories, setCategories] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
   const navigate = useNavigate();
-
-  // const authToken = localStorage.getItem('token');
 
   useEffect(() => {
     fetch(category_url)
@@ -22,6 +22,36 @@ function ArticleForm() {
       });
   }, []);
 
+  useEffect(()=>{
+    fetch("http://localhost:3000/api/v1/currentblogger", {
+      method: 'GET',
+      headers:{
+        'Authorization': localStorage.getItem("token")
+      }})
+      .then(response => response.json())
+      .then(result => setBlogger(result))
+      .catch(error => console.log('error', error))
+    },[blogger])
+
+    useEffect(() => {
+      if (params.id) {
+        fetch(`http://localhost:3000/api/v1/articles/${params.id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': localStorage.getItem("token")
+          }
+        })
+          .then(response => response.json())
+          .then(data =>{
+            // console.log('dat', data)
+            setTitle(data.article.title)
+            setDescription(data.article.description)
+            setSelectedCategories(data.category.id) 
+          })
+          .catch(error => console.log('error', error))
+      }
+    }, [params.id]);
+    
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -36,8 +66,6 @@ function ArticleForm() {
   };
  const config={
   headers :{
-    "content-Type":"application/json",
-    Accept:"application/json",
     Authorization: localStorage.token
   }
  }
@@ -46,11 +74,14 @@ function ArticleForm() {
     const data = {
       title: title,
       description: description,
-      category_ids: selectedCategories
+      category_ids: selectedCategories,
+      id: blogger.id
     };
 
-    console.log('data', data)
-    axios.post(article_url, data,config)
+    // console.log('data', data)
+    if(!params.id)
+    {
+      axios.post(article_url, data,config)
       .then(response => {
         console.log(response.data);
         navigate("/articles");
@@ -58,6 +89,16 @@ function ArticleForm() {
       .catch(error => {
         console.log(error);
       });
+    }
+    else{
+      axios.put(`http://localhost:3000/api/v1/articles/${params.id}`,data,config)
+      .then(response => {
+        console.log(response.data);
+        navigate("/articles");})
+      .catch(error => {
+        console.log(error);
+      });
+    }
   };
 
   return (

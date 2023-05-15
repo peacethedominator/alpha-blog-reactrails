@@ -3,19 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 function Navigation() {
   
-  // const currentBlogger = useAuth();
-  // const currentUser = currentBlogger.currentBlogger && JSON.parse(currentBlogger.currentBlogger);
-  // const current = currentUser;
-  // console.log(currentUser);
   const [blogger,setBlogger] = useState();
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   
   useEffect(()=>{
     const token = localStorage.getItem('token');
-    // const blogger = JSON.parse(localStorage.getItem('blogger'));
     if(token && blogger){
-      // console.log(blogger.id);
       setIsLoggedIn(true);
     }
   })
@@ -29,7 +23,7 @@ function Navigation() {
       .then(response => response.json())
       .then(result => setBlogger(result))
       .catch(error => console.log('error', error))
-    })
+    },[blogger])
     
   
   const logOutBlogger = (e) =>{
@@ -67,7 +61,6 @@ function Navigation() {
       });
     }
   }
-  // console.log(blogger);
 
   return (
     <>

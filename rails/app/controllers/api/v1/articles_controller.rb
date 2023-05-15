@@ -32,7 +32,7 @@ protect_from_forgery with: :null_session
 
   def create
     @article = Article.new(article_params)
-    @article.blogger = Blogger.find(5)
+    @article.blogger = Blogger.find(params[:id])
     @article.categories << Category.find(params[:category_ids]) if params[:category_ids]
     if @article.save
       render json: { message: "Article created successfully!", article: @article }
@@ -43,16 +43,19 @@ protect_from_forgery with: :null_session
   
   def update
     if @article.update(article_params)
-      flash[:notice] = "Article was updated successfully."
-      redirect_to @article
+      selected_categories = Category.find(params[:category_ids])
+      @article.categories.clear
+      @article.categories << selected_categories
+      render json: {message: "Article updated successfully!"}
     else
-      render 'edit'
+      # render 'edit'
+      render json: {message: "Error editing"}
     end
   end
   
   def destroy
     @article.destroy
-    redirect_to articles_path
+    render json: {message: "Deleted Successfully!"}
   end
   
   private
