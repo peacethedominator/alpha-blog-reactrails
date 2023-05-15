@@ -8,7 +8,6 @@ import { useAuth } from '../AuthContext';
 function Article(article){
     const currentBlogger = useAuth();
     const currentUser = JSON.parse(currentBlogger.currentBlogger);
-;
     const deleteArticle=()=> {
         console.log(article)
         if (window.confirm("Are you sure you want to delete this article?") && article) {

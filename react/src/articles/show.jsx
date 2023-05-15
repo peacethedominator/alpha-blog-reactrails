@@ -2,26 +2,57 @@ import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Link, useParams } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
 
 function ArticleShow(){
-
-    const currentBlogger = useAuth();
-    const currentUser = JSON.parse(currentBlogger.currentBlogger);
-    console.log(currentUser);
-
+    const [blogger,setBlogger] = useState();
     const params = useParams();
     const [items, setItems] = useState();
     const article_url = `http://localhost:3000/api/v1/articles/${params.id}`;
+
+    useEffect(()=>{
+        fetch("http://localhost:3000/api/v1/currentblogger", {
+          method: 'GET',
+          headers:{
+            'Authorization': localStorage.getItem("token")
+          }})
+          .then(response => response.json())
+          .then(result => setBlogger(result))
+          .catch(error => console.log('error', error))
+        },[blogger])
+
     useEffect(() => {
         fetch(article_url, {
-          method: 'get'
+          method: 'get',
+          headers:{
+          'Authorization': localStorage.getItem("token")
+          }
         })
           .then(response => response.json())
           .then(response_items => {
             setItems(response_items);
           });
       }, []);
+      
+      const deleteArticle=()=> {
+        if (window.confirm("Are you sure you want to delete this article?")) {
+          fetch(`http://localhost:3000/api/v1/articles/${params.id}`, {
+            method: 'DELETE',
+            headers:{
+              'Authorization': localStorage.getItem("token")
+            }
+          })
+          .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+              console.log(response);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }
+      }
     return(
         <>
         {items && 
@@ -46,9 +77,9 @@ function ArticleShow(){
                         <div className="card-text text-left">
                         {items.article.description}
                         </div>
-                        { currentUser.email == items.blogger.email ? <>
-                        <Button variant="info" className='button-size mt-2'>Edit</Button>{' '}
-                        <Button variant="danger" className='button-size mt-2'>Delete</Button>{' '}
+                        { blogger && blogger?.email == items.blogger.email ? <>
+                        <Link to={`/articles/${params.id}/edit`}><Button variant="info" className='button-size mt-2'>Edit</Button>{' '}</Link>
+                        <Link to="" onClick={deleteArticle}><Button variant="danger" className='button-size mt-2'>Delete</Button>{' '}</Link>
                         </> :
                         <></>}
                         

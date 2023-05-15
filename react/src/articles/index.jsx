@@ -7,7 +7,11 @@ function ArticleIndex(){
     const [items, setItems] = useState([]);
     const articleCount = items.length;
     useEffect(() => {
-        fetch(article_url)
+        fetch(article_url,{
+            method: 'GET',
+            headers:{
+              'Authorization': localStorage.getItem("token")
+            }})
         .then(response => response.json())
         .then(response_items => {
             setItems(response_items);

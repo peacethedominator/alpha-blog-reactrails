@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const category_url = 'http://localhost:3000/api/v1/categories'
 const article_url = 'http://localhost:3000/api/v1/articles'
@@ -84,9 +86,14 @@ function ArticleForm() {
       axios.post(article_url, data,config)
       .then(response => {
         console.log(response.data);
-        navigate("/articles");
+        navigate(`/articles/${response.data.article.id}`);
       })
       .catch(error => {
+        toast.warn('Invalid Article (Check Title, Description and Categories)',{
+          position: "top-center",        autoClose: 5000,
+          hideProgressBar: false,        closeOnClick: true,
+          pauseOnHover: true,        draggable: true,
+          progress: undefined,        theme: "colored",});
         console.log(error);
       });
     }
@@ -96,6 +103,11 @@ function ArticleForm() {
         console.log(response.data);
         navigate("/articles");})
       .catch(error => {
+        toast.warn('Invalid Article (Check Title, Description and Categories)',{
+          position: "top-center",        autoClose: 5000,
+          hideProgressBar: false,        closeOnClick: true,
+          pauseOnHover: true,        draggable: true,
+          progress: undefined,        theme: "colored",});
         console.log(error);
       });
     }
@@ -155,6 +167,18 @@ function ArticleForm() {
                 <button type="submit" className="btn btn-success mt-2">
                   Submit
                 </button>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                  />
               </div>
             </form>
           </div>

@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import { AuthContext } from '../../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 function RegistrationsForm() {
   const { setIsLoggedIn } = useContext(AuthContext);
@@ -31,6 +33,12 @@ function RegistrationsForm() {
       navigate("/articles");
     } 
     catch (error) {
+      toast.warn('Invalid User credentials',{
+        position: "top-center",        autoClose: 5000,
+        hideProgressBar: false,        closeOnClick: true,
+        pauseOnHover: true,        draggable: true,
+        progress: undefined,        theme: "colored",
+      });
       console.error(error);
     }
   };
@@ -91,6 +99,7 @@ function RegistrationsForm() {
                   <Button variant="success" className="button-size mt-2" type="submit">
                     Sign Up
                   </Button>
+                  <ToastContainer />
                 </div>
               </form>
             </div>

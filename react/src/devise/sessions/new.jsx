@@ -3,12 +3,24 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { AuthContext } from '../../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 function SessionsNew() {
   const { setIsLoggedIn } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  // const notify = () => toast.success('Logged In Successfully', {
+  //   position: "top-center",
+  //   autoClose: 5000,
+  //   hideProgressBar: false,
+  //   closeOnClick: true,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   progress: undefined,
+  //   theme: "colored",
+  //   });
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -24,13 +36,26 @@ function SessionsNew() {
     axios.post('http://localhost:3000/login', data)
       .then((response) => {
         setIsLoggedIn(true);
+        toast.success('Logged In Successfully', { position: "top-center",
+            autoClose: 5000, hideProgressBar: false,
+            closeOnClick: true, pauseOnHover: true,
+            draggable: true, progress: undefined,
+            theme: "colored", });
         console.log(response);
         localStorage.setItem('token', response.headers.getAuthorization());
         localStorage.setItem('blogger', JSON.stringify(response.data.data));
         console.log('Hello', localStorage.getItem('blogger') );
         navigate("/articles");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        toast.warn('Invalid Credentials',{
+        position: "top-center",        autoClose: 5000,
+        hideProgressBar: false,        closeOnClick: true,
+        pauseOnHover: true,        draggable: true,
+        progress: undefined,        theme: "colored",});
+        
+        console.error(error);
+       });
   };
 
   return (
@@ -78,6 +103,18 @@ function SessionsNew() {
                   <Button type="submit" variant="success" className="button-size mt-2">
                     Log In
                   </Button>{" "}
+                  <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                  />
                 </div>
               </form>
             </div>

@@ -14,7 +14,7 @@ import ArticleShow from "./articles/show";
 import SessionsNew from "./devise/sessions/new";
 import RegistrationsNew from "./devise/registrations/new";
 import RegistrationsEdit from "./devise/registrations/edit";
-
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
