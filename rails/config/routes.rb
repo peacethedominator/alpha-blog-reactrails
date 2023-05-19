@@ -1,16 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  root 'pages#home'
-  get 'about', to: 'pages#about'
-  resources :articles 
-  resources :users, except: [:new]
-  resources :categories, except: [:destroy]
-  resources :users do
-    post 'follows/create', to: 'follows#create'
-    delete 'follows/destroy', to: 'follows#destroy'
-  end
-
+ 
   namespace :api do
     namespace :v1 do
       get 'currentblogger', to: 'current_blogger#show'

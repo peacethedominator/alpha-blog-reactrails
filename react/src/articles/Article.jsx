@@ -7,7 +7,7 @@ import { useAuth } from '../AuthContext';
 
 function Article(article){
     const currentBlogger = useAuth();
-    const currentUser = JSON.parse(currentBlogger.currentBlogger);
+    const currentUser = currentBlogger.currentBlogger;
     const deleteArticle=()=> {
         console.log(article)
         if (window.confirm("Are you sure you want to delete this article?") && article) {
@@ -52,7 +52,7 @@ function Article(article){
                         {article.article.description ||article.description}
                     </p>
                     <Link to={`/articles/${article.article.id}`}><Button variant="success" className='button-size mt-2'>View</Button>{' '}</Link> 
-                    {currentUser.email == article.article.blogger.email ?
+                    {currentUser?.email == article.article.blogger.email ?
                     <>
                        <Link to={`/articles/${article.article.id}/edit`}> <Button variant="info" className='button-size mt-2'>Edit</Button>{' '}</Link> 
                        <Link to="" onClick={deleteArticle}><Button variant="danger" className='button-size mt-2'>Delete</Button>{' '}</Link> 

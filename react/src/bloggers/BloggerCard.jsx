@@ -13,7 +13,7 @@ function BloggerCard({blogger,currentBlogger,setCurrentBlogger}) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('curr', currentBlogger)
+    // console.log('curr', currentBlogger)
     if(currentBlogger)
       setIsFollowing(
         currentBlogger.followings.some(b => b.id === blogger.id)

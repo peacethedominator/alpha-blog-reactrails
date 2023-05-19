@@ -37,20 +37,11 @@ class Api::V1::BloggersController < ApplicationController
     end
     
     def create
-        # @blogger = Blogger.new(user_params)
-        # if @blogger.save
-        #     session[:user_id] = @blogger.id
-        #     flash[:notice]="Welcome to alpha blog #{@blogger.username}, you have successfully signed up! "
-        #     redirect_to articles_path
-        # else
-        #     render 'new'
-        # end
             @blogger = Blogger.find_by(email: params[:email])
         
             if @blogger && @blogger.valid_password?(params[:password])
               sign_in(@blogger)
               render json: @blogger
-            #   redirect_to root_path
             else
               flash.now[:alert] = "Invalid email or password"
               render :new

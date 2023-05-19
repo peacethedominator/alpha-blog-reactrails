@@ -20,7 +20,7 @@ function RegistrationsEdit() {
     .then(response => response.json())
     .then(result => setBlogger(result))
     .catch(error => console.log('error', error))
-  }, []);
+  }, [blogger]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

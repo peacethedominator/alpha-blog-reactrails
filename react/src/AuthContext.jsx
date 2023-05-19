@@ -16,8 +16,8 @@ const AuthProvider = ({ children }) => {
     if(user && token){
       setIsLoggedIn(true);
       axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("token");
-      setCurrentBlogger(user);}
-  },[isLoggedIn,currentBlogger]);
+      setCurrentBlogger(JSON.parse(user));}
+  },[]);
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, currentBlogger, setCurrentBlogger }}>
       {children}

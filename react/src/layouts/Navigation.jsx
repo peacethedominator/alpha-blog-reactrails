@@ -1,29 +1,37 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 function Navigation() {
   
-  const [blogger,setBlogger] = useState();
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  // const [blogger,setBlogger] = useState();
+  const { isLoggedIn, setIsLoggedIn, currentBlogger, setCurrentBlogger } = useContext(AuthContext);
   const navigate = useNavigate();
   
-  useEffect(()=>{
-    const token = localStorage.getItem('token');
-    if(token && blogger){
-      setIsLoggedIn(true);
-    }
-  })
+  // useEffect(()=>{
+  //   const token = localStorage.getItem('token');
+  //   if(token && blogger){
+  //     setIsLoggedIn(true);
+
+  //   }
+  // })
 
   useEffect(()=>{
-    fetch("http://localhost:3000/api/v1/currentblogger", {
-      method: 'GET',
-      headers:{
-        'Authorization': localStorage.getItem("token")
-      }})
-      .then(response => response.json())
-      .then(result => setBlogger(result))
-      .catch(error => console.log('error', error))
-    },[blogger])
+    if(localStorage.getItem('token')) {
+      fetch("http://localhost:3000/api/v1/currentblogger", {
+        method: 'GET',
+        headers:{
+          'Authorization': localStorage.getItem("token")
+        }})
+        .then(response => response.json())
+        .then(result => {
+          console.log('res', result)
+          setCurrentBlogger(result);
+          setIsLoggedIn(true);
+        })
+        .catch(error => console.log('error', error))
+    }
+    },[setCurrentBlogger, setIsLoggedIn, isLoggedIn])
+    console.log('curr', currentBlogger)
     
   
   const logOutBlogger = (e) =>{
@@ -36,7 +44,7 @@ function Navigation() {
   }
   const deleteItem=()=> {
     if (window.confirm("Are you sure you want to delete your profile? (This action can not be undone)")) {
-      fetch(`http://localhost:3000/api/v1/bloggers/${blogger.id}`, {
+      fetch(`http://localhost:3000/api/v1/bloggers/${currentBlogger.id}`, {
         method: 'DELETE',
         headers:{
           'Authorization': localStorage.getItem("token")
@@ -52,7 +60,7 @@ function Navigation() {
           setIsLoggedIn(false);
           navigate("/");
         } else {
-          navigate(`/bloggers/${blogger?.id}`);
+          navigate(`/bloggers/${currentBlogger?.id}`);
           console.log(response);
         }
       })
@@ -150,7 +158,7 @@ function Navigation() {
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
                   >
-                    <Link to=  {`/bloggers/${blogger?.id}`} className="dropdown-item">
+                    <Link to=  {`/bloggers/${currentBlogger?.id}`} className="dropdown-item">
                       View your profile
                     </Link>
                     <Link to="/bloggers/edit" className="dropdown-item">
